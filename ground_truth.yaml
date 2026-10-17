@@ -1,0 +1,43 @@
+- target: "VAmPI"
+  endpoint: "/users/v1/{username}"
+  method: GET
+  vulnerability: BOLA
+  description: "Herhangi bir kullanıcı, URL'deki kullanıcı adını değiştirerek diğer kullanıcının profil bilgisine erişebiliyor."
+  severity: Kritik
+  reproduce: |
+    curl http://localhost:5000/users/v1/userA -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTE4MjMyODEsImlhdCI6MTc5MTgyMzIyMSwic3ViIjoidXNlckIifQ.7XLw1TKJGuAxFZGhEIHcB6Dt-tBbQnQoVZfAWObTPOo"
+
+- target: "VAmPI"
+  endpoint: "/users/v1/{username}/email"
+  method: "PUT"
+  vulnerability: "BOLA / IDOR (Update)"
+  description: "Kullanıcı A, kullanıcı adı yol parametresini değiştirerek Kullanıcı B'nin e-posta adresini güncelleyebilir."
+
+- target: "VAmPI"
+  endpoint: "/users/v1/{username}/password"
+  method: "PUT"
+  vulnerability: "BOLA / IDOR (Update)"
+  description: "Sunucu, belirtecin (token) hedef kullanıcı adına ait olup olmadığını doğrulamadığı için, Kullanıcı A, Kullanıcı B'nin parolasını değiştirebilir."
+
+# crAPI Vulnerabilities
+- target: "crAPI"
+  endpoint: "/identity/api/v2/vehicle/{vehicle_id}/location"
+  method: "GET"
+  vulnerability: "BOLA / IDOR"
+  description: "Kimliği doğrulanmış bir kullanıcı, başka bir kullanıcıya ait bir aracın UUID değerini talep ederek söz konusu aracın GPS konumunu elde edebilir."
+
+- target: "crAPI"
+  endpoint: "/workshop/api/shop/orders/{order_id}"
+  method: "GET"
+  vulnerability: "BOLA / IDOR (Read)"
+  description: "A Kullanıcısı, `order_id` değerini sıralı olarak denemek veya tahmin etmek suretiyle, B Kullanıcısına ait geçmiş alışveriş siparişi detaylarını (teslimat adresi, satın alınan ürünler) görüntüleyebilir."
+
+- target: "crAPI"
+  endpoint: "/workshop/api/mechanic/mechanic_report"
+  method: "GET"
+  vulnerability: "BOLA"
+  description: "userA, userB'nin tamirci raporuna report_id parametresi üzerinden erişebiliyor. Yanıt, aracın VIN numarasını, sahibinin e-posta ve telefon bilgisini, mekaniğin problem detayını ve durumunu sızdırıyor. report_id sıralı (sequential, örn. 6) olduğu için başka kullanıcıların raporları da kolayca taranabilir."
+  severity: Kritik
+  reproduce: |
+    curl "http://localhost:8888/workshop/api/mechanic/mechanic_report?report_id=6" \
+      -H "Authorization: Bearer <userA_token>"
