@@ -1,0 +1,221 @@
+[
+  {
+    "path": "/",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/books/v1",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/books/v1",
+    "method": "POST",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/books/v1/{book_title}",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [
+      {
+        "name": "book_title",
+        "location": "path",
+        "confidence": 0.5,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/createdb",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/me",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/_debug",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/login",
+    "method": "POST",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/register",
+    "method": "POST",
+    "source": "openapi",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/{username}",
+    "method": "DELETE",
+    "source": "openapi",
+    "id_parameters": [
+      {
+        "name": "username",
+        "location": "path",
+        "confidence": 0.9,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/{username}",
+    "method": "GET",
+    "source": "openapi",
+    "id_parameters": [
+      {
+        "name": "username",
+        "location": "path",
+        "confidence": 0.9,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/{username}/email",
+    "method": "PUT",
+    "source": "openapi",
+    "id_parameters": [
+      {
+        "name": "username",
+        "location": "path",
+        "confidence": 0.9,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/users/v1/{username}/password",
+    "method": "PUT",
+    "source": "openapi",
+    "id_parameters": [
+      {
+        "name": "username",
+        "location": "path",
+        "confidence": 0.9,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/workshop/api/shop/products",
+    "method": "GET",
+    "source": "har",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/community/api/v2/community/posts/recent",
+    "method": "GET",
+    "source": "har",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/identity/api/v2/user/videos/{id}",
+    "method": "GET",
+    "source": "har",
+    "id_parameters": [
+      {
+        "name": "id",
+        "location": "path",
+        "confidence": 0.9,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/identity/api/v2/user/dashboard",
+    "method": "GET",
+    "source": "har",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/identity/api/auth/verify",
+    "method": "POST",
+    "source": "har",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": {
+      "token": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyeWVuaUB0ZXN0LmNvbSIsImlhdCI6MTc5MjQxNzcxOCwiZXhwIjoxNzkzMDIyNTE4LCJyb2xlIjoidXNlciJ9.pT9hP2Uf01dOQlhOloqYhOBiVMitLYh3zyF9ZHsQptgSV8Xfe2DMHV5JdeD5K8HrJkfefoMbMtkdQr_2_Mdjjh0E4TrVlTMeydUGv-WGQ175NYcZR43dttcIV4PpEzHUXynk2HTScFPYn2NsnInslKAm1UXTG992fH_R9XWJAELCaqD6NjOiVV1I8HH_4_UhNP9M4e43zbEfVVi1RcP0shTKvgPwOck72kap3pphnaa6NCK1uUEDTcmFfHddYi4mnAtbtBR7LpgyjEFepOqFcKvCR6OjTOAhX5zryvE2y-yxz1xp4LGNt_UxUAiGa9RSktYIgA6eGyPAE2ydEeFDrw"
+    }
+  },
+  {
+    "path": "/identity/api/v2/vehicle/vehicles",
+    "method": "GET",
+    "source": "har",
+    "id_parameters": [],
+    "raw_headers": {},
+    "body_example": null
+  },
+  {
+    "path": "/community/api/v2/community/posts/{id}",
+    "method": "GET",
+    "source": "har",
+    "id_parameters": [
+      {
+        "name": "id",
+        "location": "path",
+        "confidence": 0.9,
+        "example_value": null
+      }
+    ],
+    "raw_headers": {},
+    "body_example": null
+  }
+]
