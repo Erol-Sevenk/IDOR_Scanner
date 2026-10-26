@@ -1,0 +1,23 @@
+vampi:
+  base_url: "http://localhost:5000"
+  users:
+    userA:
+      username: "testA"
+      password: "Password123!"
+    userB:
+      username: "testB"
+      password: "Password123!"
+  login_endpoint: "/users/v1/login"
+  token_field: "auth_token"
+
+crapi:
+  base_url: "http://localhost:8888"
+  users:
+    userA:
+      email: "userA@test.com"
+      password: "userA1234*"
+    userB:
+      email: "tamirci@test.com"
+      password: "Tamirci1234*"
+  login_endpoint: "/identity/api/auth/login"
+  token_field: "token"
