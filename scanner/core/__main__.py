@@ -1,43 +1,30 @@
-import json
 from scanner.models import Endpoint
 from scanner.core.session_manager import SessionManager
 from scanner.core.request_replayer import RequestReplayer
-from scanner.core.batch_runner import run_batch
+from scanner.core.horizontal_bola import run_horizontal_bola_test
 
 if __name__ == "__main__":
-    print("[*] Sistem hazirlaniyor: VAmPI ve crAPI oturumlari aciliyor...")
+    print("[*] VAmPI oturumlari aciliyor...")
+    sm = SessionManager("config/users.yaml", "vampi")
+    sm.login_all()
+    replayer = RequestReplayer("http://localhost:5000", sm)
     
-    # 1. VAmPI Oturumu
-    sm_vampi = SessionManager("config/users.yaml", "vampi")
-    sm_vampi.login_all()
-    replayer_vampi = RequestReplayer("http://localhost:5000", sm_vampi)
+    endpoint = Endpoint(path="/users/v1/{username}", method="GET", source="manual")
     
-    # 2. crAPI Oturumu
-    sm_crapi = SessionManager("config/users.yaml", "crapi")
-    sm_crapi.login_all()
-    replayer_crapi = RequestReplayer("http://localhost:8888", sm_crapi)
+    print("\n[*] GERCEK SISTEM NEGATIF KONTROL TESTI (VAmPI)")
+    print("    Senaryo: userA kendi profiline bakiyor (Zafiyet OLMAMALI)")
     
-    # 3. Endpointleri Oku
-    with open("targets/discovered_endpoints.json", "r", encoding="utf-8") as f:
-        raw_endpoints = json.load(f)
-    all_endpoints = [Endpoint(**raw) for raw in raw_endpoints]
+    # Saldirgan da Kurban da Ayni Kisi!
+    result = run_horizontal_bola_test(
+        replayer=replayer,
+        endpoint=endpoint,
+        owner_user="userA",
+        attacker_user="userA",
+        attacker_known_values=sm.get_known_identity_values("userA"),
+        victim_known_values=sm.get_known_identity_values("userA"),
+        path_values={"username": "testA"}
+    )
     
-    # Hedefleri ayir (URL yollarina gore)
-    vampi_endpoints = [e for e in all_endpoints if e.path.startswith(("/users", "/books"))]
-    crapi_endpoints = [e for e in all_endpoints if e.path.startswith(("/identity", "/workshop", "/community"))]
-    
-    print("\n[*] YATAY BOLA TOPLU TARAMASI BASLIYOR...\n")
-    
-    print("--- VAmPI Sonuclari ---")
-    vampi_results = run_batch(replayer_vampi, vampi_endpoints, 'userA', 'userB')
-    for r in vampi_results:
-        flag = '🚨' if r.suspicious else '✅'
-        print(f"{flag} {r.method:6} {r.endpoint:40} -> HTTP {r.status_code}")
-        
-    print("\n--- crAPI Sonuclari ---")
-    crapi_results = run_batch(replayer_crapi, crapi_endpoints, 'userA', 'userB')
-    for r in crapi_results:
-        flag = '🚨' if r.suspicious else '✅'
-        print(f"{flag} {r.method:6} {r.endpoint:40} -> HTTP {r.status_code}")
-
-    print(f"\n[+] Tarama tamamlandi! Toplam test edilen ID'li endpoint: {len(vampi_results) + len(crapi_results)}")
+    print(f"\nHTTP Status: {result.status_code}")
+    print(f"Motor Karari: {result.verdict}")
+    print(f"Tespit Edilen Hassas Veriler: {list(result.sensitive_fields.keys())}")

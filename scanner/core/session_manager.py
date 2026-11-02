@@ -17,11 +17,7 @@ class SessionManager:
 
     def login_all(self) -> None:
         for user_key, creds in self.config["users"].items():
-            response = httpx.post(
-                f"{self.base_url}{self.config['login_endpoint']}",
-                json=creds,
-                timeout=10.0,
-            )
+            response = httpx.post(f"{self.base_url}{self.config['login_endpoint']}", json=creds, timeout=10.0)
             try:
                 response.raise_for_status()
             except httpx.HTTPStatusError as e:
@@ -29,13 +25,11 @@ class SessionManager:
                 print(f"\n[HATA] {user_key} ({kullanici}) icin giris basarisiz!")
                 print(f"[HATA] HTTP Kodu: {e.response.status_code}")
                 print(f"[HATA] crAPI Cevabi: {e.response.text}\n")
-                raise  # Programi durdur
-                
+                raise
             data = response.json()
-            token = self._extract_token(data)
             self.sessions[user_key] = UserSession(
                 username=creds.get("username", creds.get("email")),
-                token=token,
+                token=self._extract_token(data),
                 raw_login_response=data,
             )
 
@@ -50,3 +44,10 @@ class SessionManager:
 
     def get_auth_header(self, user_key: str) -> dict:
         return {"Authorization": f"Bearer {self.get_token(user_key)}"}
+
+    def get_known_identity_values(self, user_key: str) -> set[str]:
+        session = self.sessions[user_key]
+        values = {session.username}
+        if "email" in session.raw_login_response:
+            values.add(session.raw_login_response["email"])
+        return values
